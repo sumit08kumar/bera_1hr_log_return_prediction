@@ -1,0 +1,3 @@
+NAME=worker
+ENV_LOADED=false
+CONFIG=/Users/sumitkumarsingh/bera-1hr-logretun-prediction/config.json

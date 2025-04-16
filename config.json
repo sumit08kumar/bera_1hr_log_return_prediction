@@ -1,0 +1,26 @@
+{
+    "wallet": {
+        "addressKeyName": "sumit-forage",
+        "addressRestoreMnemonic": "blouse picture garbage winter test mosquito enough stamp sail embrace book cage regular uphold latin wrestle engine surprise accuse brass pumpkin receive knock burden",
+        "alloraHomeDir": "",
+        "nodeRpc": "https://allora-rpc.testnet.allora.network",
+        "chainID": "allora-testnet-1",
+        "gas": "auto",
+        "gasAdjustment": 1.5,
+        "maxGas": 1000000,
+        "maxRetries": 10,
+        "delay": 3,
+        "submitTx": true
+    },
+    "worker": [
+        {
+            "topicId": 56,
+            "inferenceEntrypointName": "api-worker",
+            "loopSeconds": 5,
+            "parameters": {
+                "InferenceEndpoint": "http://inference:8000/inference",
+                "Token": "BERA"
+            }
+        }
+    ]
+}

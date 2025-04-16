@@ -1,0 +1,43 @@
+
+services:
+  inference:
+    container_name: inference
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python -u /app/app.py
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./inference-data:/app/data
+      - .:/app
+      - ./xgboost_model-2.json:/app/xgboost_model-2.json
+      - ./xgboost_model-2.pkl:/app/xgboost_model-2.pkl
+    environment:
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 120s
+
+  worker:
+    container_name: worker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "2112:2112"
+    volumes:
+      - ./config.json:/app/config.json
+    environment:
+      - CONFIG=/app/config.json
+    depends_on:
+      inference:
+        condition: service_healthy
+
+volumes:
+  inference-data:
+  worker-data:
