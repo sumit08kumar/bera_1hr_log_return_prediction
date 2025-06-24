@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  inference:
+    container_name: inference
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python -u /app/app.py
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./inference-data:/app/data
+      - .:/app
+      - ./xgboost_model-2.json:/app/xgboost_model-2.json
+      - ./xgboost_model-2.pkl:/app/xgboost_model-2.pkl
+    restart: always    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 120s
+
+  worker:
+    container_name: worker
+    image: alloranetwork/allora-offchain-node:v0.11.0
+    volumes:
+      - ./worker-data:/data
+    depends_on:
+      inference:
+        condition: service_healthy
+    env_file:
+      - ./worker-data/env_file
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "find /data/logs -mmin -7 | grep . || exit 1"]
+      interval: 1m
+      timeout: 10s
+      retries: 2
+
+volumes:
+  inference-data:
+  worker-data:
