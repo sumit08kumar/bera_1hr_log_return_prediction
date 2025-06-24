@@ -1,7 +1,7 @@
 {
     "wallet": {
         "addressKeyName": "sumit-forage",
-        "addressRestoreMnemonic": "blouse picture garbage winter test mosquito enough stamp sail embrace book cage regular uphold latin wrestle engine surprise accuse brass pumpkin receive knock burden",
+        "addressRestoreMnemonic": "",
       "alloraHomeDir": "",
       "chainId": "allora-testnet-1",
       "gasPrices": "auto",
